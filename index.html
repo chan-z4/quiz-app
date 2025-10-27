@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Battle - Jeu Multijoueur</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Écran d'accueil -->
+            <div id="home-screen" class="screen active">
+                <h1>🎮 Quiz Battle</h1>
+                <p class="subtitle">Défiez vos amis dans un quiz multijoueur en temps réel!</p>
+                
+                <div class="input-group">
+                    <label>Votre pseudo</label>
+                    <input type="text" id="username-create" placeholder="Entrez votre pseudo">
+                </div>
+
+                <div class="input-group">
+                    <label>Créer une nouvelle partie</label>
+                    <input type="text" id="room-name" placeholder="Nom de la room">
+                    <button onclick="createRoom()">Créer la Room</button>
+                </div>
+
+                <div style="text-align: center; margin: 20px 0; color: #666; font-weight: 600;">
+                    OU
+                </div>
+
+                <div class="input-group">
+                    <label>Votre pseudo</label>
+                    <input type="text" id="username-join" placeholder="Entrez votre pseudo">
+                </div>
+
+                <div class="input-group">
+                    <label>Rejoindre une partie existante</label>
+                    <input type="text" id="join-room-id" placeholder="Code de la room">
+                    <button onclick="joinRoom()">Rejoindre</button>
+                </div>
+            </div>
+
+            <!-- Écran d'attente -->
+            <div id="waiting-screen" class="screen">
+                <div class="waiting-room">
+                    <h1>🎯 Salle d'attente</h1>
+                    <div class="room-code">
+                        Room: <span id="current-room-code"></span>
+                    </div>
+                    <p class="message">En attente des joueurs...</p>
+                    <div class="spinner"></div>
+                    
+                    <div class="players-list">
+                        <h3 style="margin-bottom: 15px; color: #333;">Joueurs connectés</h3>
+                        <div id="players-waiting"></div>
+                    </div>
+
+                    <button onclick="startGame()">Commencer le Quiz</button>
+                    <button class="btn-secondary" onclick="leaveRoom()">Quitter</button>
+                </div>
+            </div>
+
+            <!-- Écran de jeu -->
+            <div id="game-screen" class="screen">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+
+                <div class="timer" id="timer">30</div>
+
+                <div class="players-list">
+                    <h3 style="margin-bottom: 15px; color: #333;">Scores en direct</h3>
+                    <div id="players-scores"></div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-number" id="question-number">Question 1/10</div>
+                    <div class="question-text" id="question-text"></div>
+                    <div class="options" id="options"></div>
+                </div>
+
+                <button id="next-btn" onclick="nextQuestion()" style="display: none;">Question Suivante</button>
+            </div>
+
+            <!-- Écran de résultats -->
+            <div id="results-screen" class="screen">
+                <div class="results-container">
+                    <div class="trophy" id="trophy">🏆</div>
+                    <h1>Quiz Terminé!</h1>
+                    <div class="final-score" id="final-score">0/10</div>
+                    <p class="message" id="result-message"></p>
+
+                    <div class="players-list">
+                        <h3 style="margin-bottom: 15px; color: #333;">Classement Final</h3>
+                        <div id="final-ranking"></div>
+                    </div>
+
+                    <button onclick="restartGame()">Nouvelle Partie</button>
+                    <button class="btn-secondary" onclick="goHome()">Retour à l'accueil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
